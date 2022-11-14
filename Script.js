@@ -1,74 +1,101 @@
-class Banco {
-    constructor(id, nombre, tasa12, tasa24, tasa36) {
-      this.id = id
-      this.nombre = nombre
-      this.tasa12 = tasa12
-      this.tasa24 = tasa24
-      this.tasa36 = tasa36
+class producto {
+  constructor (id,nombre,precio,stock){
+    this.id = id;
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+  restaStock(){
+    this.stock = this.stock -1;
+    console.log(`El Stock de ${this.nombre} ha sido actualizado`)
     }
   }
   
-  const banconacion = new Banco(1, 'banconacion', 10, 11, 12)
-  const bancoprovincia = new Banco(2, 'bancoprovincia', 12, 14, 15)
-  const santander = new Banco(3, 'santander', 8, 11, 14)
+  const producto0 = new producto(0,"lavandina",200,800);
+  const producto1 = new producto(1,"jabon",80,200);
+  const producto2 = new producto(2,"alcohol",100,500);
+  const producto3 = new producto(3,"detergente",150,500);
+  const producto4 = new producto(4,"desodorante_para_pisos",150,300);
+
+  const productos = [producto0,producto1,producto2,producto3,producto4]
+
   
-  let bancoSeleccionado = parseInt(
-    prompt(
-      'Ingresa el banco en el que quieres operar 1.banconacion - 2.bancoprovincia - 3.santander'
-    )
-  )
- 
-  let eligioBanco = false
+  const carrito = []
+
+
+  let productosOfrecidos = "tenemos para ofrecerle: "
+     
   
-  let infoBanco
-  
-  while (eligioBanco === false) {
-    if (bancoSeleccionado === banconacion.id) {
-      eligioBanco = true
-      infoBanco = banconacion
-    } else if (bancoSeleccionado === bancoprovincia.id) {
-      eligioBanco = true
-      infoBanco = bancoprovincia
-    } else if (bancoSeleccionado === santander.id) {
-      eligioBanco = true
-      infoBanco = santander
-    } else {
-      alert('Dato incorrecto')
-      bancoSeleccionado = parseInt(
-        prompt(
-        'Ingresa el banco en el que quieres operar 1.banconacion - 2.bancoprovincia - 3.santander'
-        )
-      )
+  function agregarCarrito(){
+
+    for (item of productos){
+      
+      productosOfrecidos += ` \n ${item.id} - ${item.nombre} a tan solo $${item.precio}`
     }
+    productosOfrecidos += ` \n Ingrse el numero del producto que desea. Para finalizar ingrese 99`
+
+    let respuesta = parseInt(prompt(productosOfrecidos))
+
+    while (isNaN(respuesta)){
+      alert("Por favor ingrese un numero")
+      respuesta = parseInt(prompt(productosOfrecidos))
+    }
+    
+    while (respuesta != 99){
+
+      switch(respuesta){
+        case 0:
+            carrito.push(productos[0])
+            alert(`Agregamos al carrito el producto ${productos[0].nombre}`)
+            productos[0].restaStock()
+            break;
+        
+        case 1:
+            carrito.push(productos[1])
+            alert(`Agregamos al carrito el producto ${productos[1].nombre}`)
+            productos[1].restaStock()
+            break;
+        
+        case 2:
+            carrito.push(productos[2])
+            alert(`Agregamos al carrito el producto ${productos[2].nombre}`)
+            productos[2].restaStock()
+            break;
+        
+        case 3:
+            carrito.push(productos[3])
+            alert(`Agregamos al carrito el producto ${productos[3].nombre}`)
+            productos[3].restaStock()
+            break;
+        
+        case 4:
+            carrito.push(productos[4])
+            alert(`Agregamos al carrito el producto ${productos[4].nombre}`)
+            productos[4].restaStock()
+            break; 
+          
+        default:
+            alert(`No tenemos el producto seleccionado`)  
+            break;
+      }
+      respuesta = parseInt(prompt(productosOfrecidos))
+    }
+    alert("Cerramos tu pedido")
+    mostrarCarrito()
   }
 
-  const montoPrestamo = parseInt(prompt('Ingresa el monto del prestamo'))
-  
+    let productosCarrito = `vas a llevar: `
+    let precioCarrito = 0
 
-  const calculoCuotaMensual = (valor, interes, meses) => {
-    const cuota = (valor + (valor * interes) / 100) / meses
-    return cuota
+  agregarCarrito()
+
+
+  function mostrarCarrito(){
+    for (itemsElegidos of carrito){
+      productosCarrito += ` \n - ${itemsElegidos.nombre}`
+      precioCarrito += itemsElegidos.precio
+    }
+
+    alert(`Productos elegidos: \n ${productosCarrito} \n por un total de ${precioCarrito}`)
+
   }
-  
-  const cuota12 = calculoCuotaMensual(
-    montoPrestamo,
-    infoBanco.tasa12,
-    12
-  )
-  const cuota24 = calculoCuotaMensual(
-    montoPrestamo,
-    infoBanco.tasa24,
-    24
-  )
-  const cuota36 = calculoCuotaMensual(
-    montoPrestamo,
-    infoBanco.tasa36,
-    36
-  )
-   
-  alert(
-    `Las opciones del ${
-      infoBanco.nombre
-    } son: ${cuota12.toFixed(2)} pesos a 12 meses - ${cuota24.toFixed(
-      2)} pesos a 24 meses - ${cuota36.toFixed(2)} pesos a 36 meses`
-  )
