@@ -1,0 +1,5 @@
+.cardProp{
+    display: flex;
+    width: 250px !important;
+    margin: 5px;
+}
