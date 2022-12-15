@@ -49,10 +49,37 @@ class producto {
 
     const botonFinalizar = document.querySelector ('#Finalizar')
     botonFinalizar.onclick = () => {
-      const valores = carrito.map(prod=prod.precio * prod.cantidad)
+      const valores = carrito.map(prod=>prod.precio * prod.cantidad)
       let totalCompra = 0
       valores.forEach(valor=>{
         totalCompra += valor
       })
       console.log(carrito)
+      
+      Swal.fire({
+        icon: 'success',
+        title: `${totalCompra}$`,
+        text: 'Es su total en el ¡Carrito!',
+      })
+
+      const botonFinalizar = document.querySelector ('#Total')
+    botonFinalizar.onclick = () =>{
+    let promesa = new Promise((resolve,reject) =>{
+      if(totalCompra >= 10000){
+        resolve('')
+      }else{
+        reject('')
+      }
+    })
+    promesa
+    .then(res =>{
+      Swal.fire('Su compra tiene un valor elevado'+res)
+    })
+    .catch(error =>{
+      Swal.fire('Su compra tiene un valor por debajo de 10000$'+error)
+    })
+     }
+
     }
+
+    
